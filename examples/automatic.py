@@ -7,6 +7,7 @@ import argparse
 import time
 import signal
 import sys
+import os
 
 
 parser = argparse.ArgumentParser()
@@ -109,24 +110,25 @@ if t >= args.threshold:
 if not args.nobutton:
     @fanshim.on_release()
     def release_handler(was_held):
-        global armed
-        if was_held:
-            set_automatic(not armed)
-        elif not armed:
-            set_fan(not enabled)
+        os.system("poweroff")
+        #global armed
+        #if was_held:
+        #    set_automatic(not armed)
+        #elif not armed:
+        #    set_fan(not enabled)
 
-    @fanshim.on_hold()
-    def held_handler():
-        global led_busy
-        if args.noled:
-            return
-        led_busy.acquire()
-        for _ in range(3):
-            fanshim.set_light(0, 0, 255)
-            time.sleep(0.04)
-            fanshim.set_light(0, 0, 0)
-            time.sleep(0.04)
-        led_busy.release()
+    #@fanshim.on_hold()
+    #def held_handler():
+    #    global led_busy
+    #    if args.noled:
+    #        return
+    #    led_busy.acquire()
+    #    for _ in range(3):
+    #        fanshim.set_light(0, 0, 255)
+    #        time.sleep(0.04)
+    #        fanshim.set_light(0, 0, 0)
+    #        time.sleep(0.04)
+    #    led_busy.release()
 
 
 try:
